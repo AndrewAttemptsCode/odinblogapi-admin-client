@@ -6,17 +6,18 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const queryToken = params.get('token');
 
     if (queryToken) {
-      localStorage.setItem('token', queryToken);
+      sessionStorage.setItem('token', queryToken);
       window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     if (token) {
       try {
@@ -34,18 +35,21 @@ export const AuthProvider = ({ children }) => {
         logout();
       }
     }
+
+    setLoading(false);
   }, []);
 
   const logout = () => {
     setUser(null);
     setIsAdmin(false);
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
   }
 
   const value = {
     isAdmin,
     user,
     logout,
+    loading,
   }
 
   return (
