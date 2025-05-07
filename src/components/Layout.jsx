@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { Outlet } from "react-router-dom"
 import styled from "styled-components"
 import { useAuth } from "../contexts/useAuth"
+import { NavBar } from "./NavBar"
 
 const Container = styled.div`
   display: grid;
@@ -44,6 +45,7 @@ const Layout = () => {
     <Container>
       <Header>
         Header
+        <NavBar />
         {/* All posts(publish/unpublish)
         /All comments
         /Create post */}
