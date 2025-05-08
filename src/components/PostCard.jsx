@@ -15,27 +15,37 @@ const Button = styled.button`
 const PostCard = ({ post }) => {
   const [publishStatus, setPublishStatus] = useState(post.published ? 'Published' : 'Unpublished');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handlePublish = async () => {
-    const token = sessionStorage.getItem('token');
+    try {
+      setLoading(true);
+      const token = sessionStorage.getItem('token');
+      
+      const response = await fetch(`http://localhost:8080/posts/${post.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
 
-    setLoading(true);
+      if (!response.ok) {
+        if (response.status === 401) {
+          return window.location.href = 'http://localhost:5173/login';
+        }
+        return setError('Could not update status');
+      }
+      
+      const data = await response.json();
 
-    const response = await fetch(`http://localhost:8080/posts/${post.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-
-    const data = await response.json();
-    setPublishStatus(data.post.published ? 'Published' : 'Unpublished');
-    console.log('Publish updated', data);
-
-    // TODO capture and process all the errors
-
-    setLoading(false);
+      setPublishStatus(data.post.published ? 'Published' : 'Unpublished');
+    } catch (error) {
+      console.error('publishing error:', error);
+      setError('Could not update status.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,6 +59,7 @@ const PostCard = ({ post }) => {
       >
         {loading ? 'Processing...' : publishStatus}
       </Button>
+      {error && <p>{error}</p>}
     </article>
   );
 }
