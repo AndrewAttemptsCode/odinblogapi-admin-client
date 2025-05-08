@@ -5,11 +5,21 @@ const NavLink = styled(Link)`
   text-decoration: none;
   padding: 4px 8px;
   color: black;
+  position: relative;
 
   &.active {
     font-weight: bold;
-    border-bottom: 1px solid black;
-  }
+
+    &::before {
+      position: absolute;
+      content: '';
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: black;
+    }
+  } 
 `
 
 export const NavBar = () => {
