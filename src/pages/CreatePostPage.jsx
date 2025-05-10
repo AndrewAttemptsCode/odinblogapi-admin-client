@@ -1,7 +1,10 @@
+import PostCreate from "../components/PostCreate";
+
 export const CreatePostPage = () => {
   return (
     <section>
-      create post page here
+      <h1>Create New Post</h1>
+      <PostCreate />
     </section>
   );
 };
