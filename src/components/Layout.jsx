@@ -20,13 +20,9 @@ const Header = styled.div`
   grid-area: header;
   padding: 0.5rem 1rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  gap: 2rem;
-
-  @media (max-width: 450px) {
-    gap: 1rem;
-  }
+  gap: 1rem;
 `
 
 const Main = styled.div`
