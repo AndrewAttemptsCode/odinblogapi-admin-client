@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom"
 import styled from "styled-components"
 import { useAuth } from "../contexts/useAuth"
 import { NavBar } from "./NavBar"
+import HeaderLogo from "./HeaderLogo"
 
 const Container = styled.div`
   display: grid;
@@ -11,12 +12,20 @@ const Container = styled.div`
     'header'
     'main';
   min-height: 100vh;
-  background-color: aliceblue;
+  background-color: #F9FAFB;
 `
 
 const Header = styled.div`
   grid-area: header;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2rem;
+
+  @media (max-width: 450px) {
+    gap: 1rem;
+  }
 `
 
 const Main = styled.div`
@@ -33,7 +42,7 @@ const Layout = () => {
     const token = sessionStorage.getItem('token');
     if (!token || !isAdmin) {
       logout();
-      window.location.href = 'http://localhost:5173/login';
+      window.location.href = `${import.meta.env.VITE_PUBLIC_URL}/login`;
     }
   }, [isAdmin, logout, loading]);
 
@@ -44,13 +53,8 @@ const Layout = () => {
   return (
     <Container>
       <Header>
-        Header
+        <HeaderLogo />
         <NavBar />
-        {/* All posts(publish/unpublish)
-        /All comments
-        /Create post */}
-        {/* <AdminPanel />
-        <AuthButton /> */}
       </Header>
       <Main>
         <Outlet />
