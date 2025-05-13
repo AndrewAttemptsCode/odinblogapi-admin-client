@@ -63,7 +63,7 @@ export const PostCreate = () => {
     const token = sessionStorage.getItem('token');
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8080/posts', {
+      const response = await fetch(`${import.meta.env.VITE_DATABASE_URL}/posts`, {
         method: 'POST',
         headers: {
           'Content-Type':'application/json',
