@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PostCard from "./PostCard";
+import LoadingSpinner from "./LoadingSpinner";
 
 export const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -45,7 +46,7 @@ export const PostList = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />
   }
 
   if (error) {
