@@ -2,12 +2,42 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const TextArea = styled.textarea`
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 65ch;
-  min-height: 20ch;
-  resize: vertical;
-  padding: 0.5rem;
+  color: #111827;
+
+  & textarea {
+    width: 100%;
+    max-width: 65ch;
+    min-height: 20ch;
+    resize: vertical;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  & input {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  & button {
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+    background-color: #3B82F6;
+    color: #F9FAFB;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+`
+const ErrorText = styled.p`
+  color: red;
 `
 
 export const PostCreate = () => {
@@ -63,16 +93,16 @@ export const PostCreate = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="title">Title:</label>
+    <Form onSubmit={handleSubmit}>
+      <label htmlFor="title"><strong>Title:</strong></label>
       <input type="text" name="title" id="title" value={formData.title} onChange={handleOnChange} />
-      {errors?.find(error => error.path === 'title')?.msg}
-      <label htmlFor="text">Post Text:</label>
-      <TextArea name="text" id="text" value={formData.text} onChange={handleOnChange}></TextArea>
-      {errors?.find(error => error.path === 'text')?.msg}
-      {errors?.find(error => error.path === 'form')?.msg}
+      <ErrorText>{errors?.find(error => error.path === 'title')?.msg}</ErrorText>
+      <label htmlFor="text"><strong>Post Text:</strong></label>
+      <textarea name="text" id="text" value={formData.text} onChange={handleOnChange}></textarea>
+      <ErrorText>{errors?.find(error => error.path === 'text')?.msg}</ErrorText>
+      <ErrorText>{errors?.find(error => error.path === 'form')?.msg}</ErrorText>
       <button type="submit" disabled={loading}>{loading ? 'Processing...' : 'Create Post'}</button>
-    </form>
+    </Form>
   );
 };
 
