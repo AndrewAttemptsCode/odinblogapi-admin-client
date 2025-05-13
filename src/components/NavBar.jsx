@@ -4,7 +4,7 @@ import styled from "styled-components";
 const NavLink = styled(Link)`
   text-decoration: none;
   padding: 4px 8px;
-  color: black;
+  color: #111827;
   position: relative;
 
   &.active {
@@ -17,7 +17,7 @@ const NavLink = styled(Link)`
       left: 0;
       width: 100%;
       height: 2px;
-      background-color: black;
+      background-color: #3B82F6;
     }
   } 
 `
