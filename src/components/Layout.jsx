@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { useAuth } from "../contexts/useAuth"
 import { NavBar } from "./NavBar"
 import HeaderLogo from "./HeaderLogo"
+import LoadingSpinner from "./LoadingSpinner"
 
 const Container = styled.div`
   display: grid;
@@ -47,7 +48,7 @@ const Layout = () => {
   }, [isAdmin, logout, loading]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   return (
