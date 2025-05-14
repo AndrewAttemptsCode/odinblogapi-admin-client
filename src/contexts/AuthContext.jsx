@@ -12,9 +12,12 @@ export const AuthProvider = ({ children }) => {
     const params = new URLSearchParams(window.location.search);
     const queryToken = params.get('token');
 
+    if (!queryToken) {
+      return logout();
+    }
+
     if (queryToken) {
       sessionStorage.setItem('token', queryToken);
-      window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     const token = sessionStorage.getItem('token');
@@ -24,8 +27,8 @@ export const AuthProvider = ({ children }) => {
         const decoded = jwtDecode(token);
         const now = Date.now() / 1000;
 
-        if (decoded.exp < now) {
-          logout();
+        if (decoded.exp < now || decoded.role !== 'ADMIN') {
+          return logout();
         }
         
         setIsAdmin(decoded.role === 'ADMIN');
@@ -43,6 +46,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsAdmin(false);
     sessionStorage.removeItem('token');
+    window.location.href=`${import.meta.env.VITE_PUBLIC_URL}`;
   }
 
   const value = {
