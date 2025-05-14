@@ -57,7 +57,7 @@ const ErrorPage = () => {
       <p>
         {message}
       </p>
-      <StyledLink to={'/'}>Go back</StyledLink>
+      <StyledLink to={`${import.meta.env.VITE_PUBLIC_URL}`}>Go back</StyledLink>
     </Section>
   );
 }
