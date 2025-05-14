@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import PostCard from "./PostCard";
 import LoadingSpinner from "./LoadingSpinner";
+import styled from "styled-components";
+
+const Container = styled.div`
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  max-width: 75ch;
+  width: 100%;
+`
 
 export const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -54,10 +63,10 @@ export const PostList = () => {
   }
 
   return (
-    <div>
+    <Container>
     {posts.map(post => (
       <PostCard key={post.id} post={post} />
     ))}
-    </div>
+    </Container>
   );
 }
