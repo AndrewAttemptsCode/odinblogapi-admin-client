@@ -25,6 +25,7 @@ const NavLink = styled(Link)`
 export const NavBar = () => {
   return (
     <nav>
+      <NavLink to={`${import.meta.env.VITE_PUBLIC_URL}`}>Home</NavLink>
       <NavLink to={'posts'}>Posts</NavLink>
       <NavLink to={'comments'}>Comments</NavLink>
       <NavLink to={'create-post'}>Create Post</NavLink>
