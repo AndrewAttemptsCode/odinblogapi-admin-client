@@ -1,3 +1,4 @@
+import { User } from "lucide-react";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -11,6 +12,42 @@ const Button = styled.button`
   font-weight: bold;
 `;
 
+const Card = styled.article`
+  color: #111827;
+
+  & strong {
+    font-size: 1.3rem;
+  }
+
+  & a {
+    color: #6B7280;
+  }
+
+  & hr {
+    margin: 0.5rem 0;
+  }
+
+  @media (max-width: 450px) {
+    & strong {
+      font-size: 1rem;
+    }
+  }
+`
+
+const Info = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+`
+
+const CommentText = styled.p`
+  white-space: pre-wrap;
+`
+
+const ErrorText = styled.p`
+  color: red;
+`
+
 const CommentCard = ({ comment, updateComments }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -19,7 +56,7 @@ const CommentCard = ({ comment, updateComments }) => {
     try {
       setLoading(true);
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/comments/${comment.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_DATABASE_URL}/comments/${comment.id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type':'application/json',
@@ -29,7 +66,7 @@ const CommentCard = ({ comment, updateComments }) => {
 
       if (!response.ok) {
         if (response.status === 401) {
-          return window.location.href = 'http://localhost:5173/login';
+          return window.location.href = `${import.meta.env.VITE_PUBLIC_URL}/login`;
         }
         return setError('Could not remove comment.');
       }
@@ -45,17 +82,23 @@ const CommentCard = ({ comment, updateComments }) => {
   };
 
   return (
-    <article>
-      <p><strong>{comment.author.username}</strong></p>
-      <p>{comment.text}</p>
-      <Button 
-        disabled={loading}
-        onClick={handleDelete}
-      >
-        {loading ? 'Processing...' : 'Delete'}
-      </Button>
-      {error && <p>{error}</p>}
-    </article>
+    <Card>
+      <Info>
+        <User size={20} color="#3B82F6" />
+        <strong>{comment.author.username}</strong>
+      </Info>
+      <CommentText>{comment.text}</CommentText>
+      <Info>
+        <Button 
+          disabled={loading}
+          onClick={handleDelete}
+        >
+          {loading ? 'Processing...' : 'Delete'}
+        </Button>
+        {error && <ErrorText>{error}</ErrorText>}
+      </Info>
+      <hr />
+    </Card>
   );
 };
 
