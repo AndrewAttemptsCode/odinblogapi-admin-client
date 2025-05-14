@@ -1,3 +1,4 @@
+import { User } from "lucide-react";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -12,6 +13,38 @@ const Button = styled.button`
   font-weight: bold;
 `;
 
+const Card = styled.article`
+  color: #111827;
+
+  & strong {
+    font-size: 1.5rem;
+  }
+
+  & a {
+    color: #6B7280;
+  }
+
+  & hr {
+    margin: 0.5rem 0;
+  }
+
+  @media (max-width: 450px) {
+    & strong {
+      font-size: 1rem;
+    }
+  }
+`
+
+const Info = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+`
+
+const ErrorText = styled.p`
+  color: red;
+`
+
 const PostCard = ({ post }) => {
   const [publishStatus, setPublishStatus] = useState(post.published ? 'Published' : 'Unpublished');
   const [loading, setLoading] = useState(false);
@@ -22,7 +55,7 @@ const PostCard = ({ post }) => {
       setLoading(true);
       const token = sessionStorage.getItem('token');
       
-      const response = await fetch(`http://localhost:8080/posts/${post.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_DATABASE_URL}/posts/${post.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -32,7 +65,7 @@ const PostCard = ({ post }) => {
 
       if (!response.ok) {
         if (response.status === 401) {
-          return window.location.href = 'http://localhost:5173/login';
+          return window.location.href = `${import.meta.env.VITE_PUBLIC_URL}/login`;
         }
         return setError('Could not update status');
       }
@@ -49,18 +82,24 @@ const PostCard = ({ post }) => {
   };
 
   return (
-    <article>
-      <p><strong>{post.title}</strong></p>
-      <p>{post.author.username}</p>
-      <Button
-        onClick={handlePublish}
-        disabled={loading}
-        $status={publishStatus}
-      >
-        {loading ? 'Processing...' : publishStatus}
-      </Button>
-      {error && <p>{error}</p>}
-    </article>
+    <Card>
+      <strong>{post.title}</strong>
+      <Info>
+        <User size={20} color="#3B82F6" />
+        {post.author.username}
+      </Info>
+      <Info>
+        <Button
+          onClick={handlePublish}
+          disabled={loading}
+          $status={publishStatus}
+        >
+          {loading ? 'Processing...' : publishStatus}
+        </Button>
+        {error && <ErrorText>{error}</ErrorText>}
+      </Info>
+      <hr />
+    </Card>
   );
 }
 
