@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
 import CommentCard from "./CommentCard";
+import styled from "styled-components";
+import LoadingSpinner from "./LoadingSpinner";
+
+const Container = styled.div`
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  max-width: 75ch;
+  width: 100%;
+`
 
 const CommentList = () => {
   const [comments, setComments] = useState([]);
@@ -9,7 +19,7 @@ const CommentList = () => {
   const fetchComments = async () => {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/comments', {
+      const response = await fetch(`${import.meta.env.VITE_DATABASE_URL}/comments`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +58,7 @@ const CommentList = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />
   }
 
   if (error) {
@@ -56,11 +66,11 @@ const CommentList = () => {
   }
 
   return (
-    <div>
+    <Container>
     {comments.map(comment => (
       <CommentCard key={comment.id} comment={comment} updateComments={fetchComments} />
     ))}
-    </div>
+    </Container>
   );
 };
 
