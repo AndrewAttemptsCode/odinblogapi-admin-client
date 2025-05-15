@@ -7,6 +7,10 @@ const NavLink = styled(Link)`
   color: #111827;
   position: relative;
 
+  @media (max-width: 450px) {
+    font-size: 14px;
+  }
+
   &.active {
     font-weight: bold;
 
