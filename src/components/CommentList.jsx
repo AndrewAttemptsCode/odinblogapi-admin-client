@@ -19,7 +19,7 @@ const CommentList = () => {
   const fetchComments = async () => {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_DATABASE_URL}/comments`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/comments`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

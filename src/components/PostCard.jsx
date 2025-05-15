@@ -55,7 +55,7 @@ const PostCard = ({ post }) => {
       setLoading(true);
       const token = sessionStorage.getItem('token');
       
-      const response = await fetch(`${import.meta.env.VITE_DATABASE_URL}/posts/${post.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/posts/${post.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

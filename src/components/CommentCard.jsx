@@ -56,7 +56,7 @@ const CommentCard = ({ comment, updateComments }) => {
     try {
       setLoading(true);
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_DATABASE_URL}/comments/${comment.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/comments/${comment.id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type':'application/json',

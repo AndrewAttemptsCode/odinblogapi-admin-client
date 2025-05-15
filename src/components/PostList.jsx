@@ -19,7 +19,7 @@ export const PostList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_DATABASE_URL}/posts`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/posts`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
