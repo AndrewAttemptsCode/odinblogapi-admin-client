@@ -13,6 +13,7 @@ const Container = styled.div`
     'header'
     'main';
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: #F9FAFB;
 `
 
